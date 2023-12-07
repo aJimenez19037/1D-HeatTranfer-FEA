@@ -24,4 +24,4 @@ This pdf contains my handwritten work which includes weak form derivation, forwa
 
 # Forward Euler
 
-aJimenez19037/1D-HeatTransfer-FEA/plots/goodenoughplot1.png
+/home/locus/Pictures/goodenoughplot1.png
