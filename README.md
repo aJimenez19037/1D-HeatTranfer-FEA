@@ -23,5 +23,29 @@ This directory is where different plot are stored. Plots contain different numbe
 This pdf contains my handwritten work which includes weak form derivation, forward euler implementation, gelerkin expansion implementation, calculating mass and stiffness matrix. 
 
 # Forward Euler
+Below is the plot generated using forwardEuler.py with number of nodes (N) being 11 and dt=1/551 at the final timestep. As seen in the plot, with this small of a timestep forward euler is stable. 
 
-/home/locus/Pictures/goodenoughplot1.png
+![plots](plots/goodenoughplot1.png)
+
+I then evaluated the effect of a smaller timestep. While I was unable to determine the exact point at which the solution became unstable, based on trial and error I was able to determine that the solution becomes largely unstable at a timestep of 0.2. The instability is characterized by both ends of the solution not abiding to the boundary conditions.
+
+![plots](plots/unstable_plot0_point_2.png)
+
+I then evaluated the effect that reducing the number of nodes would have on the solution. As seen in the image the accuracy of the solution decreases as we are unable to have enough points to have a smooth curve that resembles the analytical solution.
+
+![plots](plots/4PtForward.png)
+
+# Backward Euler
+Below is the plot generated using backwardEuler.py with number of nodes (N) being 11 and dt=1/551 at the final timestep. As seen in the plot, the solution is stable and resembles the stable solution of the forward euler solution. 
+
+![plots](plots/backwrd.png)
+
+I then evaluated the effect of a smaller timestep. While I was unable to determine the exact point at which the solution became unstable, based on trial and error I was able to determine that the solution becomes largely unstable at a timestep of 0.2. The instability is characterized by both ends of the solution not abiding to the boundary conditions.
+
+![plots](plots/unstable_plot0_point_2.png)
+
+I then evaluated the effect that reducing the number of nodes would have on the solution. As seen in the image the accuracy of the solution decreases as we are unable to have enough points to have a smooth curve that resembles the analytical solution.
+
+![plots](plots/4PtForward.png)
+
+
