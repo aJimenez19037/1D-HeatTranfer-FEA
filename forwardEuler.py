@@ -10,35 +10,9 @@ global BC # uxL,uxR,uL,ur
 global ti
 global tf
 
-# #Given
-# # N = 11 # number of nodes
-# # dt = 1/551 # timestep
-# # xl = 0 # left boundary
-# # xr = 1
-# # BC = [0,0,0,0]#uxL,uxR,uL,ur 
-# # ti = 0
-# # tf = 1
-# # ux0 = 0
-
-
-
-
-# def map_e_to_x(e_values, xi, h):
-#     return [(e + 1) * (h / 2) + xi for e in e_values]
-
-# def evaluate_basis_functions(e, epsilon):
-#     phi1 = 1 - epsilon / 2
-#     phi2 = 1 + epsilon / 2
-#     return phi1, phi2
-
-# def map_x_to_xi(x_values, h, xi):
-#     return [(x / (h / 2)) - 1 for x in x_values]
 def map_x_to_xi(e, h, xi):
     x_values = [(elem + 1) * (h / 2) + xi for elem in e]
     return x_values
-
-# def map_xi_to_x(h, xi):
-#     x_values  = (xi + 1) * h / 2
 
 def basis_functions(xi):
     phi1 = 1 - xi / 2
@@ -67,28 +41,11 @@ def solve_pde(N,dt,xl,xr,BC,ti,tf,ux0, ux1):
         iee[i][1] = i + 1
     x[N-1]=xr
 
-    #cacluclate e
-
-    #x_values = map_x_to_xi(e,h, x[0])
-    # print(x_values)
-    # epsilon = 0.57735
-    # for x in x_values:
-    #     phi1, phi2 = basis_functions(x)
-    #     print(f"At x = {x:.4f}, phi1 = {phi1:.4f}, phi2 = {phi2:.4f}")
     z = []
     for x_i in x:
         xi_values = map_x_to_xi(e, h, x_i)
         z.extend([xi_values])
-    # print(all_xi)
-    # all_x = []
-    # for x_i in all_xi:
-    #     print(xi[0])
-    #     new_x1 = map_xi_to_x(h,x_i[0])
-    #     new_x2 = map_xi_to_x(h,x_i[1])
-        
-    #     all_x.extend([new_x1,new_x2])
-    #     #print(f"Physical coordinate x = {x_i}, Parent coordinates xi = {xi_values}")
-    # print(all_x)
+
     dxde = h/2
     dedx = 2/h
 
@@ -116,7 +73,6 @@ def solve_pde(N,dt,xl,xr,BC,ti,tf,ux0, ux1):
             global_node1 = iee[k][l]
             weights = [1,1]
             basis_functions_output = basis_functions(z[k][l])
-            # basis_functions_output2 = basis_functions(e[l])
             phiL,_ = basis_functions(e[0])
             phiR,_ = basis_functions(e[1])
             flocal[l] =  (f(z[k][0],tf) * phiL  + f(z[k][1],tf) * phiR) * dxde
@@ -126,7 +82,6 @@ def solve_pde(N,dt,xl,xr,BC,ti,tf,ux0, ux1):
                 dphil = basis_derivatives(l)
                 #phi1, phi2 = basis_functions(all_xi[k][l])
                 klocal[l][m] = 2*((dphil * dedx) * (dphim * dedx) * dxde)
-                #mlocal[l][m] = basis_functions(all_xi)
         #K assembly
         for l in range(2):
             global_node1 = iee[k][l]
@@ -135,23 +90,11 @@ def solve_pde(N,dt,xl,xr,BC,ti,tf,ux0, ux1):
                 global_node2 = iee[k][m]
                 K[global_node1][global_node2] += klocal[l][m]
     F[-1] = -F[0]
-    print(F)
-
-            
-
-    # for ctime in np.arange(ti, tf, dt):
-    #     for k in range(Ne):# loop over grid elements
-    #         for l in range(2): #local element calculation
-    #             basis_functions_output = basis_functions(e[l])
-                
-                
     
     M_inv = np.linalg.inv(M)
     I = np.identity(N)
     F = np.array(F)
    
-    
-    
     # Dirchilet BC
     K = np.array(K)
     for i in range(N):
@@ -170,47 +113,26 @@ def solve_pde(N,dt,xl,xr,BC,ti,tf,ux0, ux1):
                 F[i] = K[i][i] * ux0
                 F[i] = F[i] - K[i][i] * ux1
     
-    print(K)
-    print(M)
+ 
 
     u = np.dot(np.dot(I - dt * M_inv, K),u) + np.dot(dt * M_inv, F)    
     numerical_sol = u.copy()
-    analytical_sol = np.exp(-tf) * np.sin(math.pi * x)
-    print(u)
+    x2 = np.linspace(0,1,100)
+
+    analytical_sol = np.exp(-tf) * np.sin(math.pi * x2)
 
     plt.plot(x, u, label="Numerical Soln at tf")
-    plt.plot(x, analytical_sol, label="Analytical Soln at tf", linestyle='dashed')
+    plt.plot(x2, analytical_sol, label="Analytical Soln at tf", linestyle='dashed')
     plt.xlabel("x")
     plt.ylabel("u(x,tf)")
     plt.legend()
     plt.title("Heat Transfer w/ Forward Euler")
     plt.show()
 
-        
-
-
-
-    #create M
-    
-
-    
-
-
-
-    
-
 def main():
-    # N = int(input("Enter the number of nodes (N): "))
-    # dt = float(input("Enter the timestep (dt): "))
-    # xl = float(input("Enter the left boundary (xl): "))
-    # xr = float(input("Enter the right boundary (xr): "))
-    # BC = [float(input("Enter u_xL: ")), float(input("Enter u_xR: ")), float(input("Enter uL: ")), float(input("Enter uR: "))]
-    # ti = float(input("Enter the initial time (ti): "))
-    # tf = float(input("Enter the final time (tf): "))
-    # ux0 = float(input("Enter the initial condition (ux0): "))
 
-    N = 4 # number of nodes
-    dt = 1/551 # timestep
+    N = 11 # number of nodes
+    dt = .2 # timestep
     xl = 0 # left boundary
     xr = 1
     BC = [0,0,0,0]#uxL,uxR,uL,ur 
@@ -221,8 +143,6 @@ def main():
 
     solve_pde(N,dt,xl,xr,BC,ti,tf,ux0,ux1)
 
-# def f(x,t):
-#     return (pow(math.pi,2)-1) * pow(math.e,-t) * math.sin(math.pi * x) 
 
 if __name__ == "__main__":
     main()
