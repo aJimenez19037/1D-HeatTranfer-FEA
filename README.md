@@ -22,30 +22,44 @@ This directory is where different plot are stored. Plots contain different numbe
 ## hand-written-work.pdf
 This pdf contains my handwritten work which includes weak form derivation, forward euler implementation, gelerkin expansion implementation, calculating mass and stiffness matrix. 
 
+# General Process
+1. Derive weak form of of PDE with the use of integration by parts
+2. Utilize forward euler to approximate U_t
+3. Use Gelerkin expansion to approximate integrals and convert them to matrix form. 
+4. Calculate mass and stiffness matrix by hand
+5. Begin building the code:
+6. Build a uniform grid and connectivity map
+7. Define parent grid
+8. Initialize matrices and local matrices/vectors 
+9. Build K and M matrix based on earlier calculations
+10. Use quadrature to solve F vector
+11. Apply boundary conditions
+12. Given initial U vector, solve for U(n+1)
+    
 # Forward Euler
 Below is the plot generated using forwardEuler.py with number of nodes (N) being 11 and dt=1/551 at the final timestep. As seen in the plot, with this small of a timestep forward euler is stable. 
 
-![plots](plots/goodenoughplot1.png)
+![plots](plots/forwardEuler1.png)
 
-I then evaluated the effect of a smaller timestep. While I was unable to determine the exact point at which the solution became unstable, based on trial and error I was able to determine that the solution becomes largely unstable at a timestep of 0.2. The instability is characterized by both ends of the solution not abiding to the boundary conditions.
+I then evaluated the effect of a smaller timestep. While I was unable to determine the exact point at which the solution became unstable, based on trial and error I was able to determine that the solution becomes largely unstable at a timestep of 0.2. This instability arises from the explicit nature of forward euler. The instability is characterized by both ends of the solution not abiding to the boundary conditions.
 
-![plots](plots/unstable_plot0_point_2.png)
+![plots](plots/forwardEuler2.png)
 
 I then evaluated the effect that reducing the number of nodes would have on the solution. As seen in the image the accuracy of the solution decreases as we are unable to have enough points to have a smooth curve that resembles the analytical solution.
 
-![plots](plots/4PtForward.png)
+![plots](plots/forwardEuler3.png)
 
 # Backward Euler
 Below is the plot generated using backwardEuler.py with number of nodes (N) being 11 and dt=1/551 at the final timestep. As seen in the plot, the solution is stable and resembles the stable solution of the forward euler solution. 
 
-![plots](plots/backwrd.png)
+![plots](plots/backwardEuler1.png)
 
-I then evaluated the effect of a smaller timestep. While I was unable to determine the exact point at which the solution became unstable, based on trial and error I was able to determine that the solution becomes largely unstable at a timestep of 0.2. The instability is characterized by both ends of the solution not abiding to the boundary conditions.
+I then evaluated the effect of a smaller timestep of 0.5 and h(spacial step). As seen in the plot, using backward Euler the solution always remains stable resulting in the same plot. This is due to the implicit nature of using backward euler. 
 
-![plots](plots/unstable_plot0_point_2.png)
+![plots](plots/backwardEuler2.png)
 
 I then evaluated the effect that reducing the number of nodes would have on the solution. As seen in the image the accuracy of the solution decreases as we are unable to have enough points to have a smooth curve that resembles the analytical solution.
 
-![plots](plots/4PtForward.png)
+![plots](plots/backwardEuler3.png)
 
 
