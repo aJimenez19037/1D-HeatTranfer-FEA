@@ -22,5 +22,6 @@ This directory is where different plot are stored. Plots contain different numbe
 ## hand-written-work.pdf
 This pdf contains my handwritten work which includes weak form derivation, forward euler implementation, gelerkin expansion implementation, calculating mass and stiffness matrix. 
 
+# Forward Euler
 
-
+aJimenez19037/1D-HeatTransfer-FEA/plots/goodenoughplot1.png
